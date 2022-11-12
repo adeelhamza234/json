@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>Data</h2>
+
+<table>
+  <tbody id="tshow"></tbody>
+</table>
+<script>
+    function getElement(){
+        fetch("https://bootcamp.todo.arhamsoft.org/client/todo/list?userId=29337",{
+            method:"GET",
+        })
+        
+        .then(response => response.json())
+        .then(data =>{
+            console.log(data);
+            showData(data);
+            data.todos.forEach(element => {
+                console.log(element);
+            });
+        });
+    }
+    getElement();
+    function showData(data){
+        let show=`
+
+              <tr>
+                <th>User Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>  
+        `;
+        for(let i of data.todos){
+            show+=`
+            <tr>
+                <td>${i.userId}</td>   
+                <td>${i.title}</td> 
+                <td>${i.desc}</td> 
+                <td><button onclick="deletetodo(${i._id})">Delete</button></td>  
+            </tr>
+            `;
+        }
+        document.getElementById("tshow").innerHTML=show;
+    }
+</script>
+</body>
+</html>
+
